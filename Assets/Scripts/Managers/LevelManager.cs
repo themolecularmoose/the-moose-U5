@@ -36,7 +36,7 @@ public class LevelManager : MonoBehaviour {
 	{
 		var util = GameObject.Find ("Utilities");
 		if (util == null) {
-			util = GameObject.CreatePrimitive(PrimitiveType.Cube);
+			util = GameObject.CreatePrimitive (PrimitiveType.Cube);
 			util.AddComponent<LevelLoader>();
 			util.name = "Utilities";
 		}
@@ -45,6 +45,7 @@ public class LevelManager : MonoBehaviour {
 		ship = GameObject.Find("Player").GetComponent<ShipBehaviour>();
 		SetCheckpoint(ship.transform.position);
 		ep = GameObject.Find("Level").GetComponent<EventPublisher>();
+
 	}
 
 	// Update is called once per frame
@@ -57,6 +58,7 @@ public class LevelManager : MonoBehaviour {
 	 * Event Listener methods 
 	 *
 	 */
+
 	public void setupHierarchy() {
 		GameObject[] levelObjects = FindObjectsOfType(typeof(GameObject)) as GameObject[];
 		foreach(GameObject orphan in levelObjects) {

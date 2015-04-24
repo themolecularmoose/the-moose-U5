@@ -12,6 +12,7 @@ public class BusterBhv : MonoBehaviour {
 	{
 		explosionObject.transform.position = transform.position;
 		explosionObject.GetComponent<ParticleSystem>().Play();
+		Invoke ("trueDeath", explosionObject.GetComponent<ParticleSystem>().duration);
 		Destroy(gameObject);
 	}
 
@@ -19,6 +20,10 @@ public class BusterBhv : MonoBehaviour {
 	{
 		if(a_other.GetComponent<Rigidbody>() == null|| a_other.GetComponent<Rigidbody>().isKinematic)
 		{
+			if(a_other.gameObject.tag == "Player")
+			{
+				return;
+			}
 			Die();
 		}
 		a_other.gameObject.SendMessageUpwards("onBusterHit", this, SendMessageOptions.DontRequireReceiver);
@@ -26,7 +31,12 @@ public class BusterBhv : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		explosionObject = (GameObject)Instantiate(Resources.Load("Prefabs/Particles/Explosion"));
+		var instance = GameObject.Find ("Explosion(Clone)");
+		if (instance == null)
+			explosionObject = (GameObject)Instantiate (Resources.Load ("Prefabs/Particles/Explosion"));
+		else
+			explosionObject = instance;
+
 	}
 	
 	// Update is called once per frame
