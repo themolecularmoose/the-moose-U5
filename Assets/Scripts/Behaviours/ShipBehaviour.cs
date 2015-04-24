@@ -138,14 +138,9 @@ public class ShipBehaviour : MonoBehaviour {
 	// Update is called once per frame
 	void OnCollisionEnter(Collision collision)
 	{
+		collision.gameObject.GetComponentsInParent<DamagerBehaviour> ();
 		string collidedWithTag = collision.gameObject.tag;
-		
-		// If game object collided with is not in damagers list -> exit
-		/*
-		 * Temporarily Disabling
-		 * if (!damagers.Contains (collidedWithTag)) {
-			return;
-		}*/
+			
 		_m.WaitOne();
 		float damage = CalcDamage (collision);
 		eventPublisher.publish (new DamageEvent(damage, health, MAX_HEALTH));
