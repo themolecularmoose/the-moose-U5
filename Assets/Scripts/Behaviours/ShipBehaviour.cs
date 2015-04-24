@@ -14,8 +14,7 @@ public class ShipBehaviour : MonoBehaviour {
 
 	// Convience var for modifing damage upwards
 	private float damageScalar = 0.5f;
-	// List of object tags that can cause damage
-	private string[] damagers = {"Wall", "Obstacle", "Collectables"};
+
 	// Ensures order of damage taken
 	private static Mutex _m;
 
@@ -59,16 +58,16 @@ public class ShipBehaviour : MonoBehaviour {
 
 	float CalcDamage(Collision hit) 
 	{
+		int mass = 1;
+		DamagerBehaviour damager = hit.gameObject.GetComponent<DamagerBehaviour> ();
+		
+		if (damager != null) {
+			mass = damager.mass;
+		}
 		float hitMagnitude = hit.relativeVelocity.magnitude;
 		float pointsOfContact = hit.contacts.Length;
-		float mass = 0;
-		if (hit.rigidbody != null) {
-			mass = hit.rigidbody.mass;
-		} else {
-			mass = 1; // TODO: Brian S -> Add custom variables to game objects to avoid use of rigidbody on static objects
-		}
 		float force = mass * hitMagnitude;
-		float forceSpread = 0; // Default to one damamge for any collision
+		float forceSpread = 0; 
 		if (force > pointsOfContact && pointsOfContact != 0) {
 			// Naively spread damamge over points of collision
 			forceSpread = Mathf.FloorToInt(force) / pointsOfContact;
@@ -138,9 +137,6 @@ public class ShipBehaviour : MonoBehaviour {
 	// Update is called once per frame
 	void OnCollisionEnter(Collision collision)
 	{
-		collision.gameObject.GetComponentsInParent<DamagerBehaviour> ();
-		string collidedWithTag = collision.gameObject.tag;
-			
 		_m.WaitOne();
 		float damage = CalcDamage (collision);
 		eventPublisher.publish (new DamageEvent(damage, health, MAX_HEALTH));
@@ -172,6 +168,7 @@ public class ShipBehaviour : MonoBehaviour {
 	{
 		GetComponent<Rigidbody>().AddForce(m_attachments.transform.right * a_speed);
 	}
+
 	public void Lean(float a_speed, float a_max)
 	{
 		float value = GetComponent<Rigidbody>().angularVelocity.y;
@@ -183,6 +180,7 @@ public class ShipBehaviour : MonoBehaviour {
 			GetComponent<Rigidbody>().AddRelativeTorque (0, dif * sign, 0);
 		}
 	}
+
 	public void Tilt(float a_speed)
 	{
 		//broken
