@@ -20,13 +20,17 @@ public class ShipController : MonoBehaviour {
 	void OnPause ( PauseEvent pe ){
 		Time.timeScale = (Time.timeScale != 0.0f) ? 0.0f : 1.0f;
 		paused = !paused;
-		if (pe.displayMenu && pe.showMouse) {
-			// don't toggle mouse
+		eventPublisher.publish (new ShowMouseEvent (paused));
+	}
+
+	void OnShowMouse( ShowMouseEvent sme ){
+		if (sme.showMouse) {
 			Cursor.visible = true;
-		} else if (pe.displayMenu) {
-			toggleMouse ();
-			Cursor.visible = !Cursor.visible;
-		} 
+			unlockMouse ();
+		} else {
+			Cursor.visible = false;
+			lockMouse ();
+		}
 	}
 
 	void checkCenterMouse()
@@ -52,13 +56,13 @@ public class ShipController : MonoBehaviour {
 				m_shipBhv.beamState (Input.GetButton ("Tractor Beam"));
 			}
 			if (Input.GetButtonUp ("Pause")) 
-				eventPublisher.publish ( new PauseEvent(true,false) );
+				eventPublisher.publish ( new PauseEvent(true) );
 		}
 	}
 
 	void lockMouse()
 	{
-		Screen.lockCursor = true;
+		Cursor.lockState = CursorLockMode.Locked;
 	}
 
 	void moveShip()
@@ -112,7 +116,7 @@ public class ShipController : MonoBehaviour {
 
 	void unlockMouse()
 	{
-		Screen.lockCursor = false;
+		Cursor.lockState = CursorLockMode.Confined;
 	}
 
 	void updateMouse()
