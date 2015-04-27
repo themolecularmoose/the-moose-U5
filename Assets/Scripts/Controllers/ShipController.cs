@@ -116,7 +116,7 @@ public class ShipController : MonoBehaviour {
 
 	void unlockMouse()
 	{
-		Cursor.lockState = CursorLockMode.Confined;
+		Cursor.lockState = CursorLockMode.None;
 	}
 
 	void updateMouse()

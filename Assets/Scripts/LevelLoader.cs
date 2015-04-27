@@ -15,7 +15,7 @@ public class LevelLoader : MonoBehaviour {
 	void Update () {
 		if (levelToLoad && Application.loadedLevelName == "loading_screen") {
 			levelToLoad = false;
-			Application.LoadLevel(levelName);
+			StartCoroutine(delayLoad (1));
 		}
 	}
 	
@@ -35,5 +35,10 @@ public class LevelLoader : MonoBehaviour {
 		this.levelName = level;
 		this.levelToLoad = true;
 		Application.LoadLevel ("loading_screen");
+	}
+
+	private IEnumerator delayLoad( int num ){
+		yield return new WaitForSeconds( num );
+		Application.LoadLevelAsync (levelName);
 	}
 }

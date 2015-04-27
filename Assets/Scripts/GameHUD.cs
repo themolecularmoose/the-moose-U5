@@ -91,13 +91,22 @@ public class GameHUD : MonoBehaviour {
 		bottomCenterStyle.font = hudFont;
 		bottomCenterStyle.normal.textColor = Color.white;
 		bottomCenterStyle.hover.textColor = Color.yellow;
-		if (GUI.Button (new Rect (Screen.width / 2 - 150, Screen.height / 3 * 2 - 50, 300, 100), "EXIT GAME", bottomCenterStyle)){
+		if (GUI.Button (new Rect (Screen.width / 2 - 150, Screen.height / 6 * 5 - 50, 300, 100), "MAIN MENU", bottomCenterStyle)){
 			if( loader != null ){
-				eventPublisher.publish ( new PauseEvent(true) );
-				eventPublisher.publish ( new ShowMouseEvent(true) );
-				loader.LoadLevel("start_menu");
-			} else {
-				Debug.Log ("No level loader found in scene: " + Application.loadedLevelName);
+					eventPublisher.publish ( new PauseEvent(true) );
+					eventPublisher.publish ( new ShowMouseEvent(true) );
+					loader.LoadLevel("start_menu");
+				} else {
+					Debug.Log ("No level loader found in scene: " + Application.loadedLevelName);
+				}
+		}
+		if ( GUI.Button (new Rect (Screen.width / 2 - 150, Screen.height / 6 * 4 - 50, 300, 100), "LEVEL SELECT", bottomCenterStyle) ){
+			if( loader != null ){
+					eventPublisher.publish ( new PauseEvent(true) );
+					eventPublisher.publish ( new ShowMouseEvent(true) );
+					loader.LoadLevel("level_select");
+				} else {
+					Debug.Log ("No level loader found in scene: " + Application.loadedLevelName);
 			}
 		}
 		GUI.Label (new Rect (0, Screen.height / 6 * 2 - 50, Screen.width, 100), "MOUSE SENSITIVITY", bottomCenterStyle);
