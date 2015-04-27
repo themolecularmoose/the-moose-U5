@@ -103,7 +103,7 @@ public class GameHUD : MonoBehaviour {
 		if ( GUI.Button (new Rect (Screen.width / 2 - 150, Screen.height / 6 * 4 - 50, 300, 100), "LEVEL SELECT", bottomCenterStyle) ){
 			if( loader != null ){
 					eventPublisher.publish ( new PauseEvent(true) );
-					eventPublisher.publish ( new ShowMouseEvent(true) );
+					eventPublisher.publish ( new ShowMouseEvent(false) );
 					loader.LoadLevel("level_select");
 				} else {
 					Debug.Log ("No level loader found in scene: " + Application.loadedLevelName);
