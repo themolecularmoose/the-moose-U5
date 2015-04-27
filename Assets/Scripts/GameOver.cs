@@ -16,7 +16,7 @@ public class GameOver : MonoBehaviour
 		score = PlayerPrefs.GetInt("Score");
 		win = PlayerPrefs.GetInt("Win");
 		Cursor.visible = true;
-		Screen.lockCursor = false;
+		Cursor.lockState = CursorLockMode.None;
 	}
 
 	void OnGUI () {

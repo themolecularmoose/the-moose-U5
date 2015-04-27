@@ -106,7 +106,7 @@ public class ShipController : MonoBehaviour {
 	
 	void toggleMouse()
 	{
-		if(Screen.lockCursor)
+		if(Cursor.lockState == CursorLockMode.Locked)
 		{
 			unlockMouse();
 		}else{
@@ -124,7 +124,7 @@ public class ShipController : MonoBehaviour {
 		m_mousePrevious = m_mouseCurrent;
 		m_mouseCurrent = Input.mousePosition;
 		
-		if (!Screen.lockCursor) {
+		if (Cursor.lockState != CursorLockMode.Locked) {
 			m_mouseDifference = m_mouseCurrent - m_mousePrevious;
 		}
 		//gotcha ;)
