@@ -82,11 +82,14 @@ public class ShipBehaviour : MonoBehaviour {
 	
 	public void DecreaseHealth(float damage) 
 	{
-		if(health > 0) {
-			health -= damage;
-			sa.PlayDamage();
-			if(health <= 0) {
-				Die();
+		if(damage != 0)
+		{
+			if(health > 0) {
+				health -= damage;
+				sa.PlayDamage();
+				if(health <= 0) {
+					Die();
+				}
 			}
 		}
 	}
@@ -98,6 +101,8 @@ public class ShipBehaviour : MonoBehaviour {
 		gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
 		//disable the visualization
 		setVisibility(false);
+		//stop engine noise
+		sa.ToggleEngine (true);
 		//inform first of kin
 		eventPublisher.publish (new DeathEvent());
 		//disable this behaviour
@@ -126,7 +131,15 @@ public class ShipBehaviour : MonoBehaviour {
 	public void JumpDrive(float a_strength)
 	{
 		GetComponent<Rigidbody>().velocity += m_attachments.transform.forward * a_strength;
-		sa.PlayBoost ();
+		sa.IncVol ();
+		StartCoroutine (DriveRoutine (a_strength));
+	}
+
+	public IEnumerator DriveRoutine(float a_strength)
+	{
+		yield return new WaitForSeconds (0.5f);
+		sa.DecVol ();
+		
 	}
 
 	public float MaxHealth
@@ -152,6 +165,7 @@ public class ShipBehaviour : MonoBehaviour {
 	{
 		enabled = true;
 		setVisibility (true);
+		sa.ToggleEngine (false);
 	}
 
 	// Use this for initialization
