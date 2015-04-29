@@ -17,7 +17,7 @@ public class LevelManager : MonoBehaviour {
 
 	private ShipBehaviour ship;
 	private EventPublisher ep;
-	public GUIManager GUIMan;
+	//public GUIManager GUIMan;
 	private LevelLoader loader;
 
 	//Call before Start()
