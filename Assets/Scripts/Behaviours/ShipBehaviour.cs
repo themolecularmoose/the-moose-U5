@@ -120,6 +120,7 @@ public class ShipBehaviour : MonoBehaviour {
 	public void FireBuster()
 	{
 		Instantiate(m_buster, m_attachments.transform.position + m_attachments.transform.forward * 2, m_attachments.transform.rotation);
+		sa.PlayBuster ();
 	}
 
 	public float Health
