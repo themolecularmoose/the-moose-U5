@@ -27,6 +27,8 @@ public class UI_Manager : MonoBehaviour {
 		//healthPos = rectTransform.position;
 		// Get the width of the bars - should be the same for both. 
 		barWidth = rectTransform.rect.width; // good for both
+		barWidth *= rectTransform.localScale.x;
+		Debug.Log ("Bar width: " + barWidth);
 	
 	}
 	
@@ -38,10 +40,17 @@ public class UI_Manager : MonoBehaviour {
 	public void UpdateHealthBar(float health, float maxHealth)
 	{
 		Debug.Log ("Update Health bar.");
+		Debug.Log (health); 
+		Debug.Log (maxHealth);
 		float healthPercLost = (1 - health / maxHealth);
 		// Set the position of each to the initial minus the percentage of the width lost
 		float healthX = healthInitialXPos - (healthPercLost* barWidth);
-		healthPos.x = healthX;
+		//healthPos.x = healthX;
+
+		Vector3 healthPoss = healthBar.transform.position; 
+		healthPoss.x = healthX; 
+
+		healthBar.transform.position = healthPoss; 
 	}
 
 	// TODO: refactor out beam energy and remove function
