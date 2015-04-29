@@ -8,6 +8,7 @@ public class UI_Manager : MonoBehaviour {
 	public GameObject energyBar; 
 
 	public Text missionText; 
+	public Text molText;
 
 	// Initial x positions for the bars so it is known what the "full" position is. 
 	float healthInitialXPos;
@@ -31,15 +32,15 @@ public class UI_Manager : MonoBehaviour {
 		barWidth = rectTransform.rect.width; // good for both
 		barWidth *= rectTransform.localScale.x;
 		Debug.Log ("Bar width: " + barWidth);
-		UpdateMissionText ("Read the tips!\nFamiliarize yourself with controls!");
+		UpdateMissionText ("Collect molecules (0/5)");
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
 	}
-
-	void UpdateMissionText(string t)
+	
+	public void UpdateMissionText(string t)
 	{
 		missionText.text = t;
 	}
@@ -96,8 +97,10 @@ public class UI_Manager : MonoBehaviour {
 
 	public void UpdateCollectedMolecules(ArrayList collected)
 	{
-		//Text t = collectionText.GetComponent<Text> ();
-		
-		//t.text = collected.Count.ToString ();
+		molText.text = "";
+		for(var i = 0; i< collected.ToArray().Length; i++)
+		{
+			molText.text += "\n" + collected[i];
+		}
 	}
 }
