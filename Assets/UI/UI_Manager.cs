@@ -30,7 +30,8 @@ public class UI_Manager : MonoBehaviour {
 		//healthPos = rectTransform.position;
 		// Get the width of the bars - should be the same for both. 
 		barWidth = rectTransform.rect.width; // good for both
-		barWidth *= rectTransform.localScale.x;
+		//float b = 
+		//Debug.Log ("Health bar pixels width?: " + b);
 		Debug.Log ("Bar width: " + barWidth);
 		UpdateMissionText ("Collect molecules (0/5)");
 	}

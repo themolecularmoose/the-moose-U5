@@ -83,6 +83,7 @@ public class LevelManager : MonoBehaviour {
 			EndLevel ();
 		}
 		GUIMan.UpdateCollectedMolecules (flatCollected);
+	
 	}
 	public void OnDecollect(CollectableEvent colEvent){
 		GameObject collectable = colEvent.collectable;
