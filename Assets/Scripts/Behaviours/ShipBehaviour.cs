@@ -85,16 +85,11 @@ public class ShipBehaviour : MonoBehaviour {
 		if(health > 0) {
 			health -= damage;
 			sa.PlayDamage();
-			if(health <= 0) {
-				Die();
-			}
 		}
 	}
 
 	public void Die()
 	{
-		//confirm death
-		health = 0;
 		gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
 		//disable the visualization
 		setVisibility(false);
@@ -142,10 +137,10 @@ public class ShipBehaviour : MonoBehaviour {
 		eventPublisher.publish (new DamageEvent(damage, health, MAX_HEALTH));
 		DecreaseHealth (damage);
 		_m.ReleaseMutex ();
-
 		if (OnContact != null) {
 			OnContact (collision);
 		}
+		if (health <= 0) Die ();
 	}
 
 	public void Respawn()

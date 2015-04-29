@@ -70,7 +70,6 @@ public class LevelManager : MonoBehaviour {
 
 	public void OnDeath() 
 	{
-		GUIMan.UpdateHealthBar (0, ship.MaxHealth);
 		Invoke ("RespawnPlayer", 3.0f);
 	}
 	
