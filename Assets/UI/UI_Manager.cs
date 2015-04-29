@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.UI;
 public class UI_Manager : MonoBehaviour {
 
 	// Attributes
 	public GameObject healthBar; 
 	public GameObject energyBar; 
+
+	public Text missionText; 
 
 	// Initial x positions for the bars so it is known what the "full" position is. 
 	float healthInitialXPos;
@@ -29,12 +31,17 @@ public class UI_Manager : MonoBehaviour {
 		barWidth = rectTransform.rect.width; // good for both
 		barWidth *= rectTransform.localScale.x;
 		Debug.Log ("Bar width: " + barWidth);
-	
+		UpdateMissionText ("Read the tips!\nFamiliarize yourself with controls!");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+
+	}
+
+	void UpdateMissionText(string t)
+	{
+		missionText.text = t;
 	}
 
 	public void UpdateHealthBar(float health, float maxHealth)
