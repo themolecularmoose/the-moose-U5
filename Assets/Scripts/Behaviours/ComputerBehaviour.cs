@@ -19,14 +19,14 @@ public class ComputerBehaviour : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter(Collision collision)
+	void OnTriggerEnter(Collider collision)
 	{
 		if (collision.gameObject.tag == "Player") {
 			showLevelMessage = true;
 		}
 	}
 
-	void OnCollisionExit(Collision collision){
+	void OnTriggerExit(Collider collision){
 		showLevelMessage = false;
 	}
 
