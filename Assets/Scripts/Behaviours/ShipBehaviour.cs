@@ -130,15 +130,15 @@ public class ShipBehaviour : MonoBehaviour {
 	public void JumpDrive(float a_strength)
 	{
 		GetComponent<Rigidbody>().velocity += m_attachments.transform.forward * a_strength;
-		sa.IncVol ();
-		StartCoroutine (DriveRoutine (a_strength));
+		//DELTA: Removed in favor of interpolation
+		//sa.IncVol ();
+		//StartCoroutine (DriveRoutine (a_strength));
 	}
 
 	public IEnumerator DriveRoutine(float a_strength)
 	{
 		yield return new WaitForSeconds (0.5f);
 		sa.DecVol ();
-		
 	}
 
 	public float MaxHealth
@@ -211,10 +211,5 @@ public class ShipBehaviour : MonoBehaviour {
 	{
 		get{ return tractorBeam;}
 		set{ tractorBeam = value;}
-	}
-
-	void Update()
-	{
-		GetComponent<Rigidbody>().velocity *= 0.95f;
 	}
 }
