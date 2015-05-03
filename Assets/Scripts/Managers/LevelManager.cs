@@ -16,7 +16,6 @@ public class LevelManager : MonoBehaviour {
 	private int score;
 
 	private ShipBehaviour ship;
-	private EventPublisher ep;
 	public GUIManager GUIMan;
 	private LevelLoader loader;
 
@@ -44,20 +43,14 @@ public class LevelManager : MonoBehaviour {
 		GUIMan.UpdateCollectedMolecules (Flatten (collected));
 		ship = GameObject.Find("Player").GetComponent<ShipBehaviour>();
 		SetCheckpoint(ship.transform.position);
-		ep = GameObject.Find("Level").GetComponent<EventPublisher>();
-
+		setupHierarchy ();
 	}
 
 	// Update is called once per frame
 	void Update () 
 	{
-		setupHierarchy ();
-	}
 
-	/**
-	 * Event Listener methods 
-	 *
-	 */
+	}
 
 	public void setupHierarchy() {
 		GameObject[] levelObjects = FindObjectsOfType(typeof(GameObject)) as GameObject[];
