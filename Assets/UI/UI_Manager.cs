@@ -36,7 +36,7 @@ public class UI_Manager : MonoBehaviour {
 //		barWidth *= r.x;
 		//Debug.Log ("Health bar pixels width?: " + b);
 		Debug.Log ("Bar width: " + barWidth);
-		UpdateMissionText ("Collect molecules (0/5)");
+		UpdateMissionText ("Collect 5 molecules");
 	}
 	
 	// Update is called once per frame
