@@ -41,8 +41,8 @@ public class ShipController : MonoBehaviour {
 		}
 	}
 	
-	// Update is called once per frame
-	void LateUpdate () {
+	// Use this update for changes to physics
+	void FixedUpdate () {
 		//updateMouse ();
 		if (m_shipBhv.enabled) {
 			//rotateShip ();
@@ -51,12 +51,20 @@ public class ShipController : MonoBehaviour {
 				if (Input.GetKeyDown (KeyCode.Space)) {
 					m_shipBhv.JumpDrive (m_boostStrength);
 				}
-				if (Input.GetMouseButtonDown (0) || Input.GetKeyDown (KeyCode.F))
-					m_shipBhv.FireBuster ();
-				m_shipBhv.beamState (Input.GetButton ("Tractor Beam"));
 			}
-			if (Input.GetButtonUp ("Pause")) 
-				eventPublisher.publish ( new PauseEvent(true) );
+		}
+	}
+
+	void LateUpdate()
+	{
+		if (Input.GetButtonUp ("Pause"))
+		{
+			eventPublisher.publish ( new PauseEvent(true) );
+		}
+		if (!paused) {
+			if (Input.GetMouseButtonDown (0) || Input.GetKeyDown (KeyCode.F))
+				m_shipBhv.FireBuster ();
+			m_shipBhv.beamState (Input.GetButton ("Tractor Beam"));
 		}
 	}
 
@@ -139,5 +147,13 @@ public class ShipController : MonoBehaviour {
 			float turnVertical = Mathf.Clamp (-m_mouseDifference.y / shrink, -max, max);
 			transform.Rotate (turnVertical, 0, 0, Space.Self);
 			transform.Rotate (0, turnSide, 0, Space.World);
+	}
+
+	void computationSnapShot()
+	{
+		var obj = GameObject.FindObjectsOfType<MonoBehaviour> ();
+		foreach (MonoBehaviour m in obj) {
+
+		}
 	}
 }
