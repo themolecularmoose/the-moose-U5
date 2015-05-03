@@ -29,9 +29,11 @@ public class UI_Manager : MonoBehaviour {
 		
 		//healthPos = rectTransform.position;
 		// Get the width of the bars - should be the same for both. 
-		barWidth = rectTransform.rect.width; // good for both
+		//barWidth = rectTransform.rect.width; // good for both
+		barWidth = healthInitialXPos;
+		barWidth *= .65f;
 		float r = rectTransform.localScale.x;
-		barWidth *= r.x;
+//		barWidth *= r.x;
 		//Debug.Log ("Health bar pixels width?: " + b);
 		Debug.Log ("Bar width: " + barWidth);
 		UpdateMissionText ("Collect molecules (0/5)");
@@ -51,7 +53,7 @@ public class UI_Manager : MonoBehaviour {
 	{
 		Debug.Log ("Update Health bar.");
 		Debug.Log (health); 
-		Debug.Log (maxHealth);
+		//Debug.Log (maxHealth);
 		float healthPercLost = (1 - health / maxHealth);
 		// Set the position of each to the initial minus the percentage of the width lost
 		float healthX = healthInitialXPos - (healthPercLost* barWidth);
@@ -61,6 +63,8 @@ public class UI_Manager : MonoBehaviour {
 		healthPoss.x = healthX; 
 
 		healthBar.transform.position = healthPoss; 
+
+		Debug.Log ("(" + healthX + "/" + barWidth + "): " + healthInitialXPos);
 	}
 
 	// TODO: refactor out beam energy and remove function
