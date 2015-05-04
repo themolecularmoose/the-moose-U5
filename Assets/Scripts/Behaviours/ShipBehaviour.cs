@@ -130,6 +130,7 @@ public class ShipBehaviour : MonoBehaviour {
 	public void JumpDrive(float a_strength)
 	{
 		GetComponent<Rigidbody>().velocity += m_attachments.transform.forward * a_strength;
+		sa.PlayBoost ();
 		//DELTA: Removed in favor of interpolation
 		//sa.IncVol ();
 		//StartCoroutine (DriveRoutine (a_strength));
@@ -149,6 +150,14 @@ public class ShipBehaviour : MonoBehaviour {
 	// Update is called once per frame
 	void OnCollisionEnter(Collision collision)
 	{
+		//dont apply damage if we hit a collectable
+		if (collision.gameObject.GetComponent<CollectableBehaviour> ()) {
+			//still play damage sound cause it sounds kool
+			sa.PlayDamage();
+			//leave this place
+			return;
+		}
+		//calculate damage
 		_m.WaitOne();
 		float damage = CalcDamage (collision);
 		eventPublisher.publish (new DamageEvent(damage, health, MAX_HEALTH));

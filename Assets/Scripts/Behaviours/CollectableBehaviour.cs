@@ -3,6 +3,9 @@ using System.Collections;
 
 public class CollectableBehaviour : MonoBehaviour {
 	public bool m_respawn;
+	public float magneticRadius = 6;
+	public float magneticMin = 0.45f, magneticMax = 1.0f;
+	public float magneticMultiplier = 100;
 	private bool canBeam = true;
 	private EventPublisher eventPublisher;
 	GameObject player;
@@ -34,16 +37,13 @@ public class CollectableBehaviour : MonoBehaviour {
 		if (rigidBody != null) {
 			Vector3 toPlayer = player.transform.position - transform.position;
 			//cannot equal 0
-			float radius = 6;
-			float min = 0.45f, max = 1.0f;
-			float range = max - min;
-			float percentage = (radius - toPlayer.magnitude) / radius;
+			float range = magneticMax - magneticMin;
+			float percentage = (magneticRadius - toPlayer.magnitude) / magneticRadius;
 			if(percentage > 0)
 			{
-				percentage = min + (percentage*range);
-				float multiplier = 100;
+				percentage = magneticMin + (percentage*range);
 				toPlayer.Normalize();
-				rigidBody.AddForce(toPlayer * percentage * multiplier);
+				rigidBody.AddForce(toPlayer * percentage * magneticMultiplier);
 			}
 		}
 	}

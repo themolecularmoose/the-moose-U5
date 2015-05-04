@@ -48,9 +48,6 @@ public class ShipController : MonoBehaviour {
 			//rotateShip ();
 			if( !paused ){
 				moveShip ();
-				if (Input.GetKeyDown (KeyCode.Space)) {
-					m_shipBhv.JumpDrive (m_boostStrength);
-				}
 			}
 		}
 	}
@@ -61,10 +58,13 @@ public class ShipController : MonoBehaviour {
 		{
 			eventPublisher.publish ( new PauseEvent(true) );
 		}
-		if (!paused) {
+		if (!paused && m_shipBhv.enabled) {
 			if (Input.GetMouseButtonDown (0) || Input.GetKeyDown (KeyCode.F))
 				m_shipBhv.FireBuster ();
 			m_shipBhv.beamState (Input.GetButton ("Tractor Beam"));
+			if (Input.GetKeyDown (KeyCode.Space)) {
+				m_shipBhv.JumpDrive (m_boostStrength);
+			}
 		}
 	}
 

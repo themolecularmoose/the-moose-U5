@@ -11,9 +11,9 @@ public class ShipAudio : MonoBehaviour {
 	public AudioClip explode;
 	public AudioClip shoot;
 	public float busterVolume = 1.0f;
-	public float minVolume = 0.0f;
-	public float maxVolume = 0.2f;
-	public float scale = 0.1f;
+	public float hoverVolumeMin = 0.0f;
+	public float hoverVolumeMax = 0.2f;
+	public float hoverVelocityFactor = 0.1f;
 	
 	public void PlayDamage()
 	{
@@ -58,8 +58,8 @@ public class ShipAudio : MonoBehaviour {
 		//DELTA: Scale volume by speed.
 		//TODO: Store rigid body in class variable
 		Rigidbody r = GetComponent<Rigidbody> ();
-		float range = maxVolume - minVolume;
-		float vol = Mathf.Clamp(r.velocity.sqrMagnitude * range * scale, minVolume, maxVolume);
+		float range = hoverVolumeMax - hoverVolumeMin;
+		float vol = Mathf.Clamp(r.velocity.sqrMagnitude * range * hoverVelocityFactor, hoverVolumeMin, hoverVolumeMax);
 		hover.volume = vol;
 	}
 }
