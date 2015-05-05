@@ -53,6 +53,7 @@ public class GameHUD : MonoBehaviour {
 		}
 		xaxis = GameObject.Find ("Player").GetComponent<MouseLook> ();
 		yaxis = GameObject.Find ("Attachments").GetComponent<MouseLook> ();
+		sens = xaxis.sensitivityX;
 	}
 	
 	void Update () {

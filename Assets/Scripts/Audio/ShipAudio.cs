@@ -4,25 +4,30 @@ using System.Collections;
 [RequireComponent(typeof(AudioSource))]
 public class ShipAudio : MonoBehaviour {
 	
-	public AudioSource damage;
-	public AudioSource boost;
+	public AudioClip damage;
+	public AudioClip boost;
+	public AudioSource hover;
 	public AudioSource ship;
 	public AudioClip explode;
 	public AudioClip shoot;
+	public float busterVolume = 1.0f;
+	public float hoverVolumeMin = 0.0f;
+	public float hoverVolumeMax = 0.2f;
+	public float hoverVelocityFactor = 0.1f;
 	
 	public void PlayDamage()
 	{
-		damage.Play ();
+		ship.PlayOneShot(damage);
 	}
 	
 	public void PlayBoost()
 	{
-		boost.Play();
+		ship.PlayOneShot(boost);
 	}
 	
 	public void PlayBuster ()
 	{
-		ship.PlayOneShot (shoot);
+		ship.PlayOneShot (shoot, busterVolume);
 	}
 	
 	public void IncVol()
@@ -40,11 +45,21 @@ public class ShipAudio : MonoBehaviour {
 		if (death)
 		{
 			ship.Stop ();
-			damage.PlayOneShot (explode);
+			ship.PlayOneShot (explode, 1);
 		}
 		else
 		{
 			ship.Play ();
 		}
+	}
+
+	void LateUpdate()
+	{
+		//DELTA: Scale volume by speed.
+		//TODO: Store rigid body in class variable
+		Rigidbody r = GetComponent<Rigidbody> ();
+		float range = hoverVolumeMax - hoverVolumeMin;
+		float vol = Mathf.Clamp(r.velocity.sqrMagnitude * range * hoverVelocityFactor, hoverVolumeMin, hoverVolumeMax);
+		hover.volume = vol;
 	}
 }

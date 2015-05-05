@@ -188,7 +188,12 @@ public class LevelManager : MonoBehaviour {
 		if(!this.collected.ContainsKey(collectable.tag)) {
 			this.collected.Add(collectable.tag, new List<GameObject>());
 		}
-		this.collected[collectable.tag].Add (collectable);
+		//Check for duplicates.
+		//this error shouldn't occur, but it does. Sorry.
+		List<GameObject> list = this.collected [collectable.tag];
+		if (!list.Contains (collectable)) {
+			list.Add (collectable);
+		}
 	}
 
 	public void DecollectCollectable(GameObject collectable)

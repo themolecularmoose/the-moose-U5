@@ -5,10 +5,10 @@ public class LightBehaviour : MonoBehaviour {
 
 	private float sec;
 	private int nflick;
-	private Light light;
+	private Light targetLight;
 	// Use this for initialization
 	void Start () {
-		light = gameObject.GetComponent<Light> ();
+		targetLight = gameObject.GetComponent<Light> ();
 		StartCoroutine (flicker ());
 	}
 
@@ -24,9 +24,9 @@ public class LightBehaviour : MonoBehaviour {
 			//flicker
 			for(int i = 0; i < nflick; i++)
 			{
-				light.enabled = false;
+				targetLight.enabled = false;
 				yield return new WaitForSeconds(0.1f);
-				light.enabled = true;
+				targetLight.enabled = true;
 				yield return new WaitForSeconds(0.1f);
 			}
 		}

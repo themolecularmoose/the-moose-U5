@@ -41,22 +41,30 @@ public class ShipController : MonoBehaviour {
 		}
 	}
 	
-	// Update is called once per frame
-	void LateUpdate () {
+	// Use this update for changes to physics
+	void FixedUpdate () {
 		//updateMouse ();
 		if (m_shipBhv.enabled) {
 			//rotateShip ();
 			if( !paused ){
-				moveShip ();
-				if (Input.GetKeyDown (KeyCode.Space)) {
-					m_shipBhv.JumpDrive (m_boostStrength);
-				}
-				if (Input.GetMouseButtonDown (0) || Input.GetKeyDown (KeyCode.F))
-					m_shipBhv.FireBuster ();
-				m_shipBhv.beamState (Input.GetButton ("Tractor Beam"));
+				moveShip (Time.deltaTime * 1000);
 			}
-			if (Input.GetButtonUp ("Pause")) 
-				eventPublisher.publish ( new PauseEvent(true) );
+		}
+	}
+
+	void LateUpdate()
+	{
+		if (Input.GetButtonUp ("Pause"))
+		{
+			eventPublisher.publish ( new PauseEvent(true) );
+		}
+		if (!paused && m_shipBhv.enabled) {
+			if (Input.GetMouseButtonDown (0) || Input.GetKeyDown (KeyCode.F))
+				m_shipBhv.FireBuster ();
+			m_shipBhv.beamState (Input.GetButton ("Tractor Beam"));
+			if (Input.GetKeyDown (KeyCode.Space)) {
+				m_shipBhv.JumpDrive (m_boostStrength);
+			}
 		}
 	}
 
@@ -65,25 +73,25 @@ public class ShipController : MonoBehaviour {
 		Cursor.lockState = CursorLockMode.Locked;
 	}
 
-	void moveShip()
+	void moveShip(float factor)
 	{
 		if (Input.GetButton ("Forward")) {
-			m_shipBhv.Thrust(m_thrustStrength * m_motionScale);
+			m_shipBhv.Thrust(m_thrustStrength * m_motionScale * factor);
 		}
 		if (Input.GetButton ("Back")) {
-			m_shipBhv.Thrust(-m_thrustStrength * m_motionScale);
+			m_shipBhv.Thrust(-m_thrustStrength * m_motionScale * factor);
 		}
 		if (Input.GetButton ("Left")) {
-			m_shipBhv.Strafe(-m_thrustStrength * m_motionScale);
+			m_shipBhv.Strafe(-m_thrustStrength * m_motionScale * factor);
 		}
 		if (Input.GetButton ("Right")) {
-			m_shipBhv.Strafe(m_thrustStrength * m_motionScale);
+			m_shipBhv.Strafe(m_thrustStrength * m_motionScale * factor);
 		}
 		if (Input.GetButton ("Rise")) {
-			m_shipBhv.Climb(m_thrustStrength * m_motionScale);
+			m_shipBhv.Climb(m_thrustStrength * m_motionScale * factor);
 		}
 		if (Input.GetButton ("Fall")) {
-			m_shipBhv.Climb(-m_thrustStrength * m_motionScale);
+			m_shipBhv.Climb(-m_thrustStrength * m_motionScale * factor);
 		}
 	}
 
