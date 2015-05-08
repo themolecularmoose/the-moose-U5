@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -20,13 +21,9 @@ public class GameHUD : MonoBehaviour {
 	public Dictionary<string, Rect> moleculeTextureRects;
 	public Dictionary<string, Rect> moleculeLabelRects;
 
-	private bool paused = false;
 	private bool menupaused = false;
 
-	void OnPause( PauseEvent pe ){
-		paused = !paused;
-		menupaused = (pe.displayMenu && paused) ? true : false;
-	}
+	PauseComponent pause;
 
 	void Start () {
 		moleculeLabelRects = new Dictionary<string, Rect> {
@@ -41,19 +38,26 @@ public class GameHUD : MonoBehaviour {
 			{"Water", WaterTex},
 			{"Methane", MethaneTex}
 		};
-		if (GameObject.Find ("Utilities") != null) {
-			loader = GameObject.Find ("Utilities").GetComponent<LevelLoader> ();
-		} else { 
-			Debug.Log ("No loader game object in scene: " + Application.loadedLevelName);
-		}
-		if (GameObject.Find ("Level") != null) {
-			eventPublisher = GameObject.Find ("Level").GetComponent<EventPublisher> ();
-		} else { 
-			Debug.Log ("No level game object in scene: " + Application.loadedLevelName);
-		}
+		loader = ObjectFinder.FindOrCreateLevelLoader ();
+		eventPublisher = ObjectFinder.FindOrCreateComponent<EventPublisher> ();
+		//find or create pause so we can show or hide the pause menu
+		pause = ObjectFinder.FindOrCreateComponent<PauseComponent> ();
+		//Show the menu when theres a pause
+		pause.OnPause += ShowMenu;
+		//Hide the menu when theres an unpause
+		pause.OnResume += HideMenu;
 		xaxis = GameObject.Find ("Player").GetComponent<MouseLook> ();
 		yaxis = GameObject.Find ("Attachments").GetComponent<MouseLook> ();
 		sens = xaxis.sensitivityX;
+	}
+
+	void ShowMenu(object sender, EventArgs e)
+	{
+		menupaused = true;
+	}
+	void HideMenu(object sender, EventArgs e)
+	{
+		menupaused = false;
 	}
 	
 	void Update () {

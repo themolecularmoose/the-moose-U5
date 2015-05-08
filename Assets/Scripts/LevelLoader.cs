@@ -41,4 +41,11 @@ public class LevelLoader : MonoBehaviour {
 		yield return new WaitForSeconds( num );
 		Application.LoadLevelAsync (levelName);
 	}
+
+	void OnPause ( PauseEvent pe ){
+		Time.timeScale = (Time.timeScale != 0.0f) ? 0.0f : 1.0f;
+		bool paused = Time.timeScale == 0;
+		EventPublisher eventPublisher = ObjectFinder.FindOrCreateComponent<EventPublisher> ();
+		eventPublisher.publish (new ShowMouseEvent (paused));
+	}
 }

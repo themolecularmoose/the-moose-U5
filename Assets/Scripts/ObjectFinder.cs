@@ -81,6 +81,7 @@ public static class ObjectFinder
 		if (item == null) {
 			GameObject finder = FindOrCreateObjectFinder();
 			item = finder.AddComponent<T>();
+			Debug.Log("Object Finder: I couldn't find any " + typeof(T) + " so I created one."); 
 		}
 		return item;
 	}

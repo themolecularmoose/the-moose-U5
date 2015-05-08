@@ -9,21 +9,14 @@ public class DialogueMarkerBehaviour : MonoBehaviour {
 	float m_spinRate;
 	GUIContent m_content;
 	CartoonBehaviour m_behaviour;
-	private bool paused = false;
-	private bool displayMenu = false;
-	private EventPublisher eventPublisher;
-
-	void OnPause( PauseEvent pe ) {
-		paused = !paused;
-		displayMenu = (paused && pe.displayMenu);
-	}
+	private PauseComponent pause;
 	
 	// Use this for initialization
 	void Start () {
 		m_behaviour = GetComponent<CartoonBehaviour>();
 		m_spinRate = m_behaviour.m_spinRate;
 		m_content = new GUIContent(m_text);
-		eventPublisher = ObjectFinder.FindOrCreateComponent<EventPublisher>();
+		pause = ObjectFinder.FindOrCreateComponent<PauseComponent>();
 	}
 	
 	// Update is called once per frame
@@ -33,17 +26,14 @@ public class DialogueMarkerBehaviour : MonoBehaviour {
 	
 	void OnGUI()
 	{
-		if(m_on && !displayMenu)
+		if(m_on)
 		{
 			drawDialogue();
-			if ( !paused ) 
-				eventPublisher.publish ( new PauseEvent(false));
 			GUIStyle bottomCenterStyle = GUI.skin.GetStyle ("Label");
 			bottomCenterStyle.alignment = TextAnchor.MiddleCenter;
 			bottomCenterStyle.fontSize = 48;
 			bottomCenterStyle.normal.textColor = Color.yellow;
 			if( GUI.Button (new Rect (Screen.width / 2 - 150, Screen.height - 100, 300, 100), "CONTINUE", bottomCenterStyle ) ){
-				eventPublisher.publish( new PauseEvent(false));
 				turnOff ();
 			}
 		}
@@ -72,12 +62,14 @@ public class DialogueMarkerBehaviour : MonoBehaviour {
 	{
 		m_on = true;
 		m_behaviour.m_spinRate = m_spinRate * 6;
+		pause.Pause ();
 	}
 
 	void turnOff()
 	{
 		m_on = false;
 		m_behaviour.m_spinRate = m_spinRate;
+		pause.Resume ();
 		Destroy (this.gameObject);
 	}
 	
