@@ -23,11 +23,7 @@ public class DialogueMarkerBehaviour : MonoBehaviour {
 		m_behaviour = GetComponent<CartoonBehaviour>();
 		m_spinRate = m_behaviour.m_spinRate;
 		m_content = new GUIContent(m_text);
-		if (GameObject.Find ("Level") != null) {
-			eventPublisher = GameObject.Find ("Level").GetComponent<EventPublisher> ();
-		} else { 
-			Debug.Log ("No level game object in scene: " + Application.loadedLevelName);
-		}
+		eventPublisher = ObjectFinder.FindOrCreateComponent<EventPublisher>();
 	}
 	
 	// Update is called once per frame

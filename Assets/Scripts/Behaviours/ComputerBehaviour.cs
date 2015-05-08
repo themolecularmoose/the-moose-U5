@@ -8,7 +8,7 @@ public class ComputerBehaviour : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		loader = GameObject.Find ("Utilities").GetComponent<LevelLoader> ();
+		loader = ObjectFinder.FindOrCreateLevelLoader();
 	}
 	
 	void Update(){

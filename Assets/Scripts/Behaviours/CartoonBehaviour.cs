@@ -20,7 +20,7 @@ public class CartoonBehaviour : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (!paused) {
-			float bobHeight = Mathf.Sin (Time.time) * m_bobPeak;
+			float bobHeight = Mathf.Sin (Time.time * m_bobRate) * m_bobPeak;
 			float change = bobHeight - m_lastBobHeight;
 			if (GetComponent<Rigidbody>() == null) {
 				transform.Rotate (0, m_spinRate, 0);
