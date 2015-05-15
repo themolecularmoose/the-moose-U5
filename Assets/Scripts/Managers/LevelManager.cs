@@ -106,10 +106,14 @@ public class LevelManager : MonoBehaviour {
 		Dictionary<string, List<GameObject>> tmpDic = new Dictionary<string, List<GameObject>>();
 		foreach (GameObject tmpObj in list) 
 		{
-			if(!tmpDic.ContainsKey(tmpObj.tag)){
-				tmpDic.Add (tmpObj.tag, new List<GameObject>());
+			try{
+				if(!tmpDic.ContainsKey(tmpObj.tag)){
+					tmpDic.Add (tmpObj.tag, new List<GameObject>());
+				}
+				tmpDic[tmpObj.tag].Add (tmpObj);
+			} catch(UnityException ue) {
+				Debug.Log(ue.StackTrace);
 			}
-			tmpDic[tmpObj.tag].Add (tmpObj);
 		}
 		return tmpDic;
 	}

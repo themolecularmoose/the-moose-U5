@@ -83,6 +83,8 @@ public class DialogueMarkerBehaviour : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider a_other)
 	{
+		if (a_other.gameObject == null)
+			return;
 		if (a_other.gameObject.tag != "Player")
 			return;
 		turnOn ();
