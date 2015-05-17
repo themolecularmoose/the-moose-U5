@@ -9,11 +9,13 @@ public class GUIManager : MonoBehaviour {
 	public GameObject healthBar; 
 	public GameObject energyBar; 
 	public GameObject collectionText;
+	public RectTransform healthVisual;
 
 	public Texture box;
 	public LevelManager level;
 	public LevelLoader loader;
 	public EventPublisher eventPublisher;
+	ShipBehaviour shipBehaviour;
 
 	// Initial x positions for the bars so it is known what the "full" position is. 
 	float healthInitialXPos;
@@ -59,14 +61,18 @@ public class GUIManager : MonoBehaviour {
 		} else { 
 			Debug.Log ("No level game object in scene: " + Application.loadedLevelName);
 		}
-		xaxis = GameObject.Find ("Player").GetComponent<MouseLook> ();
+		var ship = GameObject.Find ("Player");
+		xaxis = ship.GetComponent<MouseLook> ();
 		yaxis = GameObject.Find ("Attachments").GetComponent<MouseLook> ();
+		shipBehaviour = ship.GetComponent<ShipBehaviour> ();
 		sens = xaxis.sensitivityX;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		healthBar.transform.position = healthPos;
+		//healthBar.transform.position = healthPos;
+		float x = shipBehaviour.Health / shipBehaviour.MaxHealth;
+		healthVisual.anchorMax = new Vector2 (x, healthVisual.anchorMax.y);
 	}
 
 	public void UpdateCollectedMolecules(ArrayList collected)
