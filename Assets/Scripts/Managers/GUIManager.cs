@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 /// <summary>
@@ -23,6 +24,12 @@ public class GUIManager : MonoBehaviour {
 	//Modify these containers to represent health and energy changes
 	public RectTransform healthVisual;
 	public RectTransform energyVisual;
+	//Use a dictionary to associate a texture with a molecule
+	public Texture waterTexture;
+	public Texture methaneTexture;
+	private Dictionary<string, Texture> moleculeForTexture;
+	public Text collectedText;
+	public Text totalCollectableText;
 
 	//Use for pause menu to draw backgrounds
 	public Texture box;
@@ -81,16 +88,25 @@ public class GUIManager : MonoBehaviour {
 		barWidth = rectTransform.rect.size.x;
 		//barWidth *= 10; // Scaling. I'm not sure how to do this better at this time.
 		*/
+
 		//find or create these system components
+		level = ObjectFinder.FindOrCreateComponent<LevelManager> ();
 		loader = ObjectFinder.FindOrCreateLevelLoader ();
 		eventPublisher = ObjectFinder.FindOrCreateComponent<EventPublisher> ();
+
 		//find the player to get the the mouse components and ship behaviour
 		var ship = GameObject.Find ("Player");
 		xaxis = ship.GetComponent<MouseLook> ();
 		yaxis = GameObject.Find ("Attachments").GetComponent<MouseLook> ();
 		shipBehaviour = ship.GetComponent<ShipBehaviour> ();
+
 		//initialize the sensitivity to whatever is currently set in the editor
 		sens = xaxis.sensitivityX;
+		//initialize our molecule_tag -> texture mapping
+		moleculeForTexture = new Dictionary<string, Texture>(){
+			{"Water", waterTexture},
+			{"Methane", methaneTexture}
+		};
 	}
 	
 	// Update is called once per frame
@@ -104,6 +120,18 @@ public class GUIManager : MonoBehaviour {
 		float healthPercentage = shipBehaviour.Health / shipBehaviour.MaxHealth;
 		//set the visual to squish horizontally according to that percentage
 		healthVisual.anchorMax = new Vector2 (healthPercentage, healthVisual.anchorMax.y);
+
+		//get all collectables
+		int collected = level.Collected.Count;
+		//get collected molecules
+		int collectables = level.Collectables.Count;
+		//set our collected text to match (if its single digits add a 0)
+		//TODO: do real formatting using C# stuff
+		collectedText.text = (collected > 9 ? "" : "0") + collected.ToString();
+		totalCollectableText.text = (collectables > 9 ? "" : "0") + collectables.ToString();
+		//go through each type of collected molecule
+
+		//if we have any of this type updated a collectedPanel
 	}
 
 	public void UpdateCollectedMolecules(ArrayList collected)
