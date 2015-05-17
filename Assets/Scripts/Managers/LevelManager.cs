@@ -82,10 +82,10 @@ public class LevelManager : MonoBehaviour {
 		GUIMan.UpdateCollectedMolecules (Flatten(collected));
 	}
 	
-	public void OnDamage(DamageEvent damage) 
+	/*public void OnDamage(DamageEvent damage) 
 	{
 		GUIMan.UpdateHealthBar (damage.postHealth, damage.maxHealth);
-	}
+	}*/
 
 	/**
 	 * Collectable management methods
@@ -149,7 +149,7 @@ public class LevelManager : MonoBehaviour {
 		ship.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
 		ship.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 		ship.Respawn ();
-		GUIMan.UpdateHealthBar (ship.Health, ship.MaxHealth);
+		/*GUIMan.UpdateHealthBar (ship.Health, ship.MaxHealth);*/
 		GUIMan.UpdateCollectedMolecules (Flatten(collected));
 	}
 

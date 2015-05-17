@@ -11,27 +11,29 @@ using System;
 using UnityEngine;
 
 /// <summary>
-/// Here 2 help.
-/// Do not add variables.
-/// Limit this class to FUNCTIONS.
-/// Unity does not handle typical static classes well.
-/// Currently this class provides persistent objects,
-/// in a central location.
+/// ObjectFinder
+/// This class is mostly for finding components and adding them if they arent found.
+/// Providing the same service for GameObjects is less desirable.
+/// Providing the same service for Objects in general using 'default(T)' may be good.
+/// Maintenance: Do not add variables, limit this class to FUNCTIONS.
 /// Sacrifice performance to maintain this function-only pattern
-/// (Replace with better system when possible)
+/// (Replace with better system when possible, Unity is not good with static)
 /// </summary>
 public static class ObjectFinder
 {
 	/// <summary>
-	/// Used internally to host components we couldn't find
+	/// Used internally to host (be a container for) components we couldn't find
 	/// </summary>
 	/// <returns>An "ObjectFinder" GameObject</returns>
 	private static GameObject FindOrCreateObjectFinder ()
 	{
+		//Determine the name of 'ObjectFinder' dynamically
 		Type mine = typeof(ObjectFinder);
 		string name = mine.Name;
 		GameObject helper = GameObject.Find (name);
+		//It should not find it the first time, so make a primitive
 		if (helper == null) {
+			//TODO: Hide this primitive
 			helper = GameObject.CreatePrimitive (PrimitiveType.Quad);
 			helper.name = name;
 		}
