@@ -22,7 +22,7 @@ public class GameOver : MonoBehaviour
 		centeredStyle.normal.textColor = Color.yellow;
 		
 		// centered and at top of screen
-		GUI.Label (new Rect (rect.center[0]-100, rect.center[1]-200, 200, 100), "Final Score");
+		GUI.Label (new Rect (rect.center[0]-100, rect.center[1]-200, 200, 150), "Final Score");
 		GUI.Label (new Rect (rect.center[0]-100, rect.center[1]-80, 200, 100), "5/5");
 
 		string victory = "";
